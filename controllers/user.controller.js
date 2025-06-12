@@ -62,7 +62,7 @@ exports.deleteUserByUsername = async(req,res)=>{
     let username = req.params.username
 
     try {
-        const result = await User.findByIdAndDelete({ username: username })
+        const result = await User.findOneAndDelete({ username: username })
         res.status(200).json({status : true, data: result})
     } catch (error) {
         console.log('Error in deleting a user', error)
