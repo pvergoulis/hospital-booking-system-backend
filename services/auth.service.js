@@ -6,7 +6,7 @@ function generateToken(user){
         id: user._id,
         username : user.username,
         email: user.email,
-        roles: user.roles
+        role: user.role
     }
 
     const secret = process.env.TOKEN_SECRET

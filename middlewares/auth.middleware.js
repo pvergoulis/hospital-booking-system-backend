@@ -23,11 +23,11 @@ function verifyToken(req,res,next){
 
 function verifyRoles(allowedRole){
   return (req, res, next)=>{
-    if(!req.user || !req.user.roles){
+    if(!req.user || !req.user.role){
       return res.status(403).json({status: false, data : "Forbidden: no roles found"})
     }
 
-    const userRoles = req.user.roles
+    const userRoles = req.user.role
     const hasPermission = userRoles.includes(allowedRole)
 
     if(!hasPermission){
