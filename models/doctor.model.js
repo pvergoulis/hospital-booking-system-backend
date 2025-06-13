@@ -18,14 +18,20 @@ let doctorSchema = new Schema({
     type: String
   },
   specialization: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'DoctorCategory',
     required: true,
+  },
+   clinic: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Clinic'
   },
   amka:{
     type:String,
     required: true,
     unique: true
   },
+
   availableHours: [
     {
       day: { type: String },
