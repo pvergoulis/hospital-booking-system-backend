@@ -4,7 +4,7 @@ exports.findAllDoctors = async (req, res) => {
   console.log("Finding All Doctors");
 
   try {
-    const result = await Doctor.find();
+    const result = await Doctor.find().populate("specialization").populate("clinic");
     res.status(200).json({ status: true, data: result });
   } catch (error) {
     console.log("Error in finding all Teachers", error);
@@ -17,7 +17,7 @@ exports.findDoctorByLastname = async (req, res) => {
   console.log("Finding Doctor with lastname ", lastname);
 
   try {
-    const result = await Doctor.findOne({ lastname: lastname });
+    const result = await Doctor.findOne({ lastname: lastname }).populate("specialization").populate("clinic");
     res.status(200).json({ staus: true, data: result });
   } catch (error) {
     console.log("Error in finding doctor with lastname :", lastname);
@@ -32,9 +32,11 @@ exports.createDoctor = async (req, res) => {
    firstname: data.firstname,
    lastname: data.lastname,
    experience: data.experience,
+   image: data.image,
    cv: data.cv,
    amka: data.amka,
    specialization: data.specialization,
+   clinic: data.clinic,
    availableHours: data.availableHours || []
   });
 

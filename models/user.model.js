@@ -32,11 +32,15 @@ let userSchema = new Schema ({
     },
     vat: {
         type: String,
-        unique: true
+        unique: true,
+        minlength: 9,
+        maxlength: 9
     },
     amka : {
         type: String,
-        unique: true
+        unique: true,
+        minlength: 11,
+        maxlength: 11
     },
     phone : {
         type: String 

@@ -2,6 +2,19 @@ const Appointment = require('../models/appointment.model');
 const Doctor = require('../models/doctor.model');
 const  {sendEmail } = require('../utils/emailService');
 
+
+exports.findAllAppointments = async(req,res) =>{
+    console.log('Finding all appointments')
+
+    try {
+        const result = Appointment.find()
+        res.status(200).json({status: true,data: result})
+    } catch (error) {
+        console.log('Error in finding all appointments')
+        res.status(400).json({statsu: false, data: error})
+    }
+}
+
 exports.bookAppointment = async (req, res) => {
     try {
         const { doctorId, date, timeSlot } = req.body;

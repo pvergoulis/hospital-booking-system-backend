@@ -6,11 +6,11 @@ const verifyToken = require('../middlewares/auth.middleware').verifyToken
 const verifyRoles = require('../middlewares/auth.middleware').verifyRoles
 
 router.get('/', verifyToken,doctorController.findAllDoctors)
-router.get('/:lastname',verifyToken, doctorController.findDoctorByLastname)
-router.get('/:specialization',verifyToken, doctorController.findDoctorsBySpecialization)
+router.get('/lastname/:lastname',verifyToken, doctorController.findDoctorByLastname)
+router.get('/specialization/:specialization',verifyToken, doctorController.findDoctorsBySpecialization)
 router.post('/create', verifyToken, verifyRoles("ADMIN"),doctorController.createDoctor)
-router.patch('/update:id',verifyToken,verifyRoles("ADMIN"), doctorController.updateDoctor)
-router.delete('/delete:id',verifyToken,verifyRoles("ADMIN"),doctorController.deleteDoctorById)
+router.patch('/update/:id',verifyToken,verifyRoles("ADMIN"), doctorController.updateDoctor)
+router.delete('/delete/:id',verifyToken,verifyRoles("ADMIN"),doctorController.deleteDoctorById)
 
 module.exports  = router
 

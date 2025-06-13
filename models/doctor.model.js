@@ -11,6 +11,9 @@ let doctorSchema = new Schema({
     type:String,
     required: true
   },
+  image: {
+    type: String
+  },
   experience : {
     type : String
   },
@@ -19,7 +22,7 @@ let doctorSchema = new Schema({
   },
   specialization: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'DoctorCategory',
+    ref: 'Category',
     required: true,
   },
    clinic: {
@@ -29,7 +32,9 @@ let doctorSchema = new Schema({
   amka:{
     type:String,
     required: true,
-    unique: true
+    unique: true,
+    minlength: 11,
+    maxlength: 11
   },
 
   availableHours: [
