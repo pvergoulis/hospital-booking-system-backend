@@ -6,7 +6,7 @@ const verifyToken = require('../middlewares/auth.middleware').verifyToken
 const verifyRoles = require('../middlewares/auth.middleware').verifyRoles
 
 router.get('/', verifyToken,doctorController.findAllDoctors)
-router.get('/sixDoctors', verifyToken, doctorController.findFirstSixlDoctors)
+router.get('/EightDoctors', verifyToken, doctorController.findFirstEightDoctors)
 router.get('/lastname/:lastname',verifyToken, doctorController.findDoctorByLastname)
 router.get('/specialization/:specialization',verifyToken, doctorController.findDoctorsBySpecialization)
 router.post('/create', verifyToken, verifyRoles("ADMIN"),doctorController.createDoctor)
