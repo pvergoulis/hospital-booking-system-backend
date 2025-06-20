@@ -13,7 +13,7 @@ exports.findAllDoctors = async (req, res) => {
 };
 
 
-exports.findFirstSixlDoctors = async (req, res) => {
+exports.findFirstSixDoctors = async (req, res) => {
   console.log("Finding All Doctors");
 
   try {
