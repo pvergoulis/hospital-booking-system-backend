@@ -12,6 +12,19 @@ exports.findAllDoctors = async (req, res) => {
   }
 };
 
+
+exports.findFirstSixlDoctors = async (req, res) => {
+  console.log("Finding All Doctors");
+
+  try {
+    const result = await Doctor.find().limit(8).populate("specialization").populate("clinic");
+    res.status(200).json({ status: true, data: result });
+  } catch (error) {
+    console.log("Error in finding all Teachers", error);
+    res.status(404).json({ status: false, data: error });
+  }
+};
+
 exports.findDoctorByLastname = async (req, res) => {
   let lastname = req.params.lastname;
   console.log("Finding Doctor with lastname ", lastname);
