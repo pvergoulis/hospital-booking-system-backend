@@ -29,6 +29,7 @@ exports.findDoctorByLastname = async (req, res) => {
   let lastname = req.params.lastname;
   console.log("Finding Doctor with lastname ", lastname);
 
+  
   try {
     const result = await Doctor.findOne({ lastname: lastname }).populate("specialization").populate("clinic");
     res.status(200).json({ status: true, data: result });
