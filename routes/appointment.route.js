@@ -6,8 +6,10 @@ const verifyToken = require('../middlewares/auth.middleware').verifyToken
 const verifyRoles = require('../middlewares/auth.middleware').verifyRoles
 
 router.get('/',verifyToken, verifyRoles("ADMIN"), appointmentController.findAllAppointments)
+router.get("/doctor/:doctorId",verifyToken, appointmentController.getAppointmentsByDoctor);
 router.post('/book', verifyToken, appointmentController.bookAppointment); 
 router.get('/user', verifyToken, appointmentController.getAppointments);  
+router.patch('/update-past-pending', verifyToken, appointmentController.updatePastPendingAppointments);
 router.delete('/cancel/:id', verifyToken, appointmentController.cancelAppointment); 
 
 

@@ -85,7 +85,47 @@ exports.cancelAppointment = async (req, res) => {
 
         res.status(200).json({ message: 'Appointment canceled successfully' });
     } catch (error) {
-        console.error("❌ Cancel error:", error);
+        console.error(" Cancel error:", error);
         res.status(500).json({ message: 'Server error', error });
     }
+};
+
+
+exports.getAppointmentsByDoctor = async (req, res) => {
+  const { doctorId } = req.params;
+
+  try {
+    const appointments = await Appointment.find({ doctor: doctorId });
+
+   
+
+    res.json({ status: true, appointments });
+  } catch (error) {
+    res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+
+exports.updatePastPendingAppointments = async (req, res) => {
+  try {
+    const now = new Date();
+
+    // Βρες όλα τα appointments που είναι PENDING και η ημερομηνία+ώρα <= τώρα
+    const pendingAppointments = await Appointment.find({ status: "PENDING" });
+
+    const updatePromises = pendingAppointments.map(async (appt) => {
+      const apptDateTime = new Date(`${appt.date}T${appt.timeSlot}`);
+      if (apptDateTime <= now) {
+        appt.status = "CONFIRMED";
+        return appt.save();
+      }
+    });
+
+    await Promise.all(updatePromises);
+
+    res.status(200).json({ message: "Past pending appointments updated" });
+  } catch (error) {
+    console.error("Error updating pending appointments:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
 };
