@@ -51,7 +51,7 @@ exports.createDoctor = async (req, res) => {
    amka: data.amka,
    specialization: data.specialization,
    clinic: data.clinic,
-   availableHours: data.availableHours || []
+  //  availableHours: data.availableHours || []
   });
 
   try {
