@@ -58,11 +58,11 @@ exports.createUser = async(req,res)=>{
 }
 
 
-exports.deleteUserByUsername = async(req,res)=>{
-    let username = req.params.username
+exports.deleteUserById = async(req,res)=>{
+    let id = req.params.id
 
     try {
-        const result = await User.findOneAndDelete({ username: username })
+        const result = await User.findOneAndDelete({ _id: id })
         res.status(200).json({status : true, data: result})
     } catch (error) {
         console.log('Error in deleting a user', error)
