@@ -152,7 +152,6 @@ exports.updatePastPendingAppointments = async (req, res) => {
 };
 
 
-
 exports.updateAppointmentStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
