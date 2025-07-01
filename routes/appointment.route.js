@@ -10,6 +10,7 @@ router.get("/doctor/:doctorId",verifyToken, appointmentController.getAppointment
 router.post('/book', verifyToken, appointmentController.bookAppointment); 
 router.get('/user', verifyToken, appointmentController.getAppointments);  
 router.patch('/update-past-pending', verifyToken, appointmentController.updatePastPendingAppointments);
+router.patch("/:id/status", verifyToken, verifyRoles("ADMIN"),appointmentController.updateAppointmentStatus);
 router.delete('/cancel/:id', verifyToken, appointmentController.cancelAppointment); 
 
 

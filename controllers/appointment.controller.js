@@ -116,29 +116,6 @@ exports.getAppointmentsByDoctor = async (req, res) => {
   }
 };
 
-// exports.updatePastPendingAppointments = async (req, res) => {
-//   try {
-//     const now = new Date();
-
-//     // Βρες όλα τα appointments που είναι PENDING και η ημερομηνία+ώρα <= τώρα
-//     const pendingAppointments = await Appointment.find({ status: "PENDING" });
-
-//     const updatePromises = pendingAppointments.map(async (appt) => {
-//       const apptDateTime = new Date(`${appt.date}T${appt.timeSlot}`);
-//       if (apptDateTime <= now) {
-//         appt.status = "CONFIRMED";
-//         return appt.save();
-//       }
-//     });
-
-//     await Promise.all(updatePromises);
-
-//     res.status(200).json({ message: "Past pending appointments updated" });
-//   } catch (error) {
-//     console.error("Error updating pending appointments:", error);
-//     res.status(500).json({ message: "Server error", error });
-//   }
-// };
 
 exports.updatePastPendingAppointments = async (req, res) => {
   try {
@@ -170,6 +147,43 @@ exports.updatePastPendingAppointments = async (req, res) => {
       .json({ message: `${appointmentsToUpdate.length} appointments updated` });
   } catch (error) {
     console.error("Error updating pending appointments:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+
+
+exports.updateAppointmentStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const allowedStatuses = ['PENDING', 'CONFIRMED', 'CANCELED', 'REJECTED', 'ACCEPTED', 'DONE'];
+  if (!allowedStatuses.includes(status)) {
+    return res.status(400).json({ message: 'Invalid status value' });
+  }
+
+  try {
+    const appointment = await Appointment.findById(id)
+      .populate("user", "email firstname")
+      .populate("doctor", "firstname lastname");
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    appointment.status = status;
+    await appointment.save();
+
+    
+    await sendEmail(
+      appointment.user.email,
+      "Appointment Status Updated",
+      `Your appointment with Dr. ${appointment.doctor.firstname} ${appointment.doctor.lastname} on ${appointment.date} at ${appointment.timeSlot} is now ${status}.`
+    );
+
+    res.status(200).json({ message: "Status updated", appointment });
+  } catch (error) {
+    console.error("Update status error:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };

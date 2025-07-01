@@ -23,7 +23,7 @@ let appointmentSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['PENDING', 'CONFIRMED', 'CANCELED'],
+    enum: ['PENDING', 'CONFIRMED', 'CANCELED', 'REJECTED', 'ACCEPTED', 'DONE'],
     default: 'PENDING'
   }
 }, { timestamps: true });
