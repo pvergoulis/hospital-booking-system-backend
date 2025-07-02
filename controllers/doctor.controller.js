@@ -1,4 +1,5 @@
 const Doctor = require("../models/doctor.model");
+const bcrypt = require("bcrypt");
 
 exports.findAllDoctors = async (req, res) => {
   console.log("Finding All Doctors");
@@ -42,6 +43,10 @@ exports.findDoctorByLastname = async (req, res) => {
 exports.createDoctor = async (req, res) => {
   let data = req.body;
 
+  if (!data.password) {
+      return res.status(400).json({ status: false, data: "Password is required" });
+    }
+
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(data.password, saltRounds);
 
@@ -52,8 +57,8 @@ exports.createDoctor = async (req, res) => {
     image: data.image,
     cv: data.cv,
     amka: data.amka,
-    specialization: data.specialization,
-    clinic: data.clinic,
+    specialization: data.specialization._id || data.specialization,
+    clinic: data.clinic._id || data.clinic,
     username: data.username,
     email: data.email,
     password: hashedPassword,
