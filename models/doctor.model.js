@@ -33,6 +33,10 @@ let doctorSchema = new Schema(
     cv: {
       type: String,
     },
+    role: {
+      type: String,
+      default: "DOCTOR"
+    },
     specialization: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
