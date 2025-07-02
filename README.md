@@ -52,7 +52,11 @@ This is the **backend** of a full-featured **Hospital Management System**, built
 
 
 ## 🔐 Role-Based Access
- |__ Role-Based Access
-    |__ Admin   → Full access to all routes
-    |__ Doctor  → Can view and manage their own appointments
-    |__ Patient → Can register, log in, and book appointments
+
+| **Role**  | **Access Description**                                              |
+|-----------|---------------------------------------------------------------------|
+| 🛠️ **Admin**   | Full access to all routes: manage users, doctors, and appointments     |
+| 🩺 **Doctor**  | Has a dedicated login. Can view and manage their own appointments     |
+| 👤 **Patient** | Can register, log in, and book appointments with available doctors     |
+
+
