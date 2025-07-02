@@ -42,24 +42,31 @@ exports.findDoctorByLastname = async (req, res) => {
 exports.createDoctor = async (req, res) => {
   let data = req.body;
 
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(data.password, saltRounds);
+
   const newDoctor = new Doctor({
-   firstname: data.firstname,
-   lastname: data.lastname,
-   experience: data.experience,
-   image: data.image,
-   cv: data.cv,
-   amka: data.amka,
-   specialization: data.specialization,
-   clinic: data.clinic,
-  //  availableHours: data.availableHours || []
+    firstname: data.firstname,
+    lastname: data.lastname,
+    experience: data.experience,
+    image: data.image,
+    cv: data.cv,
+    amka: data.amka,
+    specialization: data.specialization,
+    clinic: data.clinic,
+    username: data.username,
+    email: data.email,
+    password: hashedPassword,
+    role: data.role || "DOCTOR",
+    //  availableHours: data.availableHours || []
   });
 
   try {
-    const result = await newDoctor.save()
-    res.status(200).json({status: true, data: result})
+    const result = await newDoctor.save();
+    res.status(200).json({ status: true, data: result });
   } catch (error) {
-    console.log('Error in creating new Doctor', error)
-    res.status(404).json({status: false, data: error})
+    console.log("Error in creating new Doctor", error);
+    res.status(404).json({ status: false, data: error });
   }
 };
 
