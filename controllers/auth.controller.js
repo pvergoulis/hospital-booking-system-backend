@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/user.model')
+const Doctor = require('../models/doctor.model')
 
 const authService = require('../services/auth.service')
 
