@@ -27,7 +27,7 @@ let userSchema = new Schema ({
     },
     role:{
         type :String,
-        enum : ['ADMIN',  'PATIENT'],
+        enum : ['ADMIN', 'DOCTOR', 'PATIENT'],
         default : 'PATIENT'
     },
     vat: {
