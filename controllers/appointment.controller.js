@@ -67,7 +67,8 @@ exports.getAppointments = async (req, res) => {
   try {
     const userId = req.user.id;
     const appointments = await Appointment.find({ user: userId }).populate(
-      "doctor"
+     { path: "doctor",
+    populate: { path: "specialization", select: "name" }}
     );
     res.status(200).json({ appointments });
   } catch (error) {
