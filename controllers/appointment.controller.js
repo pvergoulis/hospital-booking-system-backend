@@ -23,6 +23,17 @@ exports.bookAppointment = async (req, res) => {
     if (!doctorExists)
       return res.status(404).json({ message: "Doctor not found" });
 
+
+     const existingAppointment = await Appointment.findOne({
+      doctor: doctorId,
+      date: new Date(date),
+      timeSlot: timeSlot,
+      status: { $nin: ['CANCELED', 'REJECTED'] }
+    });
+    if (existingAppointment) {
+      return res.status(400).json({ message: "This time slot is already booked for this doctor." });
+    }
+
     const newAppointment = new Appointment({
       user: userId,
       doctor: doctorId,

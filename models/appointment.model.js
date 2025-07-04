@@ -28,4 +28,15 @@ let appointmentSchema = new Schema({
   }
 }, { timestamps: true });
 
+
+appointmentSchema.index(
+  { doctor: 1, date: 1, timeSlot: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      status: { $nin: ['CANCELED', 'REJECTED'] }
+    }
+  }
+);
+
 module.exports = mongoose.model('Appointment', appointmentSchema);
