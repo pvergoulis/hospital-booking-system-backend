@@ -23,15 +23,16 @@ exports.bookAppointment = async (req, res) => {
     if (!doctorExists)
       return res.status(404).json({ message: "Doctor not found" });
 
-
-     const existingAppointment = await Appointment.findOne({
+    const existingAppointment = await Appointment.findOne({
       doctor: doctorId,
       date: new Date(date),
       timeSlot: timeSlot,
-      status: { $nin: ['CANCELED', 'REJECTED'] }
+      status: { $nin: ["CANCELED", "REJECTED"] },
     });
     if (existingAppointment) {
-      return res.status(400).json({ message: "This time slot is already booked for this doctor." });
+      return res
+        .status(400)
+        .json({ message: "This time slot is already booked for this doctor." });
     }
 
     const newAppointment = new Appointment({
@@ -51,12 +52,10 @@ exports.bookAppointment = async (req, res) => {
       `Your appointment with Dr. ${doctorExists.firstname} is booked for ${date} at ${timeSlot}.`
     );
 
-    res
-      .status(201)
-      .json({
-        message: "Appointment booked successfully",
-        appointment: newAppointment,
-      });
+    res.status(201).json({
+      message: "Appointment booked successfully",
+      appointment: newAppointment,
+    });
   } catch (error) {
     console.error("Booking error:", error);
     res.status(500).json({ message: "Server error", error });
@@ -66,10 +65,10 @@ exports.bookAppointment = async (req, res) => {
 exports.getAppointments = async (req, res) => {
   try {
     const userId = req.user.id;
-    const appointments = await Appointment.find({ user: userId }).populate(
-     { path: "doctor",
-    populate: { path: "specialization", select: "name" }}
-    );
+    const appointments = await Appointment.find({ user: userId }).populate({
+      path: "doctor",
+      populate: { path: "specialization", select: "name" },
+    });
     res.status(200).json({ appointments });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -128,7 +127,6 @@ exports.getAppointmentsByDoctor = async (req, res) => {
   }
 };
 
-
 exports.updatePastPendingAppointments = async (req, res) => {
   try {
     const now = new Date();
@@ -163,14 +161,20 @@ exports.updatePastPendingAppointments = async (req, res) => {
   }
 };
 
-
 exports.updateAppointmentStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  const allowedStatuses = ['PENDING', 'CONFIRMED', 'CANCELED', 'REJECTED', 'ACCEPTED', 'DONE'];
+  const allowedStatuses = [
+    "PENDING",
+    "CONFIRMED",
+    "CANCELED",
+    "REJECTED",
+    "ACCEPTED",
+    "DONE",
+  ];
   if (!allowedStatuses.includes(status)) {
-    return res.status(400).json({ message: 'Invalid status value' });
+    return res.status(400).json({ message: "Invalid status value" });
   }
 
   try {
@@ -185,7 +189,6 @@ exports.updateAppointmentStatus = async (req, res) => {
     appointment.status = status;
     await appointment.save();
 
-    
     await sendEmail(
       appointment.user.email,
       "Appointment Status Updated",
