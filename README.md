@@ -1,8 +1,8 @@
-# 🏥 Hospital Management Backend
+# 🏥 Hospital Booking System Backend
 
 ## 🇬🇧 English Description
 
-This is the **backend** of a full-featured **Hospital Management System**, built with **Node.js**, **Express**, and **MongoDB**. It provides RESTful APIs for managing users, doctors, and appointments, with secure authentication and role-based access control.
+This is the **backend** of a full-featured **Hospital Booking System**, built with **Node.js**, **Express**, and **MongoDB**. It provides RESTful APIs for managing users, doctors, and appointments, with secure authentication and role-based access control.
 
 ---
 
